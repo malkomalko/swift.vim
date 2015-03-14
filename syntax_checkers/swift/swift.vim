@@ -20,7 +20,9 @@ function! SyntaxCheckers_swift_swift_GetLocList() dict
   let sdk = syntastic#util#shescape(system('xcrun --sdk iphonesimulator --show-sdk-path | xargs echo -n'))
   let makeprg = self.makeprgBuild({
         \ 'exe': self.getExec(),
-        \ 'args_before': '-sdk ' . sdk})
+        \ 'tail': '-o /dev/null',
+        \ 'fname_before': '-primary-file',
+        \ 'args_before': '-frontend -c -sdk ' . sdk})
 
   let errorformat =
         \ '%E%f:%l:%c: error: %m,' .
@@ -36,7 +38,7 @@ endfunction
 call g:SyntasticRegistry.CreateAndRegisterChecker({
       \ 'filetype': 'swift',
       \ 'name': 'swift',
-      \ 'exec': 'swiftc'})
+      \ 'exec': 'swift'})
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
